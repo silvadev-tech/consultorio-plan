@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<!-- Barra de navegação -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Clínica</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="agenda.html">Agenda</a></li>
+                <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="dentistas.html">Dentistas</a></li>
+                <li class="nav-item"><a class="nav-link" href="orcamento.html">Orçamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="financeiro.html">Financeiro</a></li>
+                <li class="nav-item"><a class="nav-link" href="suporte.html">Suporte Premium</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Conteúdo principal -->
+<main class="dashboard-container container mt-4">
+    <h2>Resumo Geral</h2>
+
+    <!-- Cards de resumo -->
+    <section class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>Total de Orçamentos</h3>
+                    <p class="card-value" id="card-orcamentos">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>Tratamentos Fechados</h3>
+                    <p class="card-value" id="card-fechados">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>Taxa de Conversão</h3>
+                    <p class="card-value" id="card-conversao">0%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Área para gráficos -->
+    <section class="row mb-4">
+        <div class="col-md-6">
+            <div class="chart">
+                <h3>Conversões Mensais</h3>
+                <canvas id="barChart" aria-label="Gráfico de conversões mensais" role="img"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart">
+                <h3>Fechados vs Não Fechados</h3>
+                <canvas id="pieChart" aria-label="Gráfico de fechados vs não fechados" role="img"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Área para planos -->
+    <section class="planos">
+        <h2>Planos Disponíveis</h2>
+        <table id="planos-table" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Linhas preenchidas dinamicamente pelo dashboard.js -->
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<!-- Script externo -->
+<script src="dashboard.js"></script>
+</body>
+</html>

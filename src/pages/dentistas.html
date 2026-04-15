@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dentistas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Barra de navegação superior -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Clínica</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="agenda.html">Agenda</a></li>
+                <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+                <li class="nav-item"><a class="nav-link active" href="dentistas.html">Dentistas</a></li>
+                <li class="nav-item"><a class="nav-link" href="orcamento.html">Orçamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="financeiro.html">Financeiro</a></li>
+                <li class="nav-item"><a class="nav-link" href="suporte.html">Suporte Premium</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Conteúdo principal -->
+<div class="container mt-4 dentistas-container">
+    <h2>Lista de Dentistas</h2>
+
+    <!-- Formulário de cadastro/edição -->
+    <form class="dentista-form row g-3 mb-4">
+        <div class="col-md-3">
+            <input type="text" name="nome" class="form-control" placeholder="Nome" required />
+        </div>
+        <div class="col-md-3">
+            <input type="email" name="email" class="form-control" placeholder="E-mail" required />
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="telefone" class="form-control" placeholder="Telefone" required />
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="cpf" class="form-control" placeholder="CPF" required />
+        </div>
+        <div class="col-md-2">
+            <select name="plano" class="form-select" required>
+                <option value="">Selecione o Plano</option>
+                <option value="basico">Plano Básico</option>
+                <option value="intermediario">Plano Intermediário</option>
+                <option value="premium">Plano Premium</option>
+            </select>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success">Cadastrar Dentista</button>
+        </div>
+    </form>
+
+    <!-- Tabela de dentistas -->
+    <table id="dentistas-table" class="table table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+            <th>CPF</th>
+            <th>Plano</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Dentistas serão renderizados dinamicamente -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Script externo -->
+<script src="dentistas.js"></script>
+</body>
+</html>

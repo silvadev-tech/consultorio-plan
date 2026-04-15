@@ -1,0 +1,78 @@
+// financeiro.js
+
+// Função para carregar orçamentos salvos
+function carregarOrcamentos() {
+const tabela = document.querySelector("#tabelaOrcamentos tbody");
+if (tabela) tabela.innerHTML = "";
+
+const lista = JSON.parse(localStorage.getItem("listaOrcamentos")) || [];
+
+let receitas = 0;
+let despesas = 0; // aqui você pode integrar com despesas reais depois
+
+// Soma todas as receitas (totais dos orçamentos)
+lista.forEach(o => {
+receitas += o.total;
+
+// Se existir tabela, renderiza cada orçamento
+if (tabela) {
+const tr = document.createElement("tr");
+tr.innerHTML = `
+<td>${o.paciente || "Sem compromisso"}</td>
+<td>${o.procedimentos.join(", ")}</td>
+<td>R$ ${o.subtotal.toFixed(2)}</td>
+<td>${o.descontoPercent}% (R$ ${o.desconto.toFixed(2)})</td>
+<td>R$ ${o.maoObra.toFixed(2)}</td>
+<td><strong>R$ ${o.total.toFixed(2)}</strong></td>
+<td>${o.data || "-"}</td>
+`;
+tabela.appendChild(tr);
+}
+});
+
+const saldo = receitas - despesas;
+
+// Atualiza os cards
+document.getElementById("valor-receitas").textContent = `R$ ${receitas.toFixed(2)}`;
+document.getElementById("valor-despesas").textContent = `R$ ${despesas.toFixed(2)}`;
+document.getElementById("valor-saldo").textContent = `R$ ${saldo.toFixed(2)}`;
+
+// Gráficos
+atualizarGraficos(lista, receitas, despesas);
+}
+
+// Função para atualizar gráficos
+function atualizarGraficos(lista, receitas, despesas) {
+const ctxLine = document.getElementById("lineChart").getContext("2d");
+const ctxBar = document.getElementById("barChart").getContext("2d");
+
+// Fluxo de Caixa Mensal (simulação simples)
+new Chart(ctxLine, {
+type: 'line',
+data: {
+labels: lista.map((o, i) => o.data || `Orçamento ${i+1}`),
+datasets: [{
+label: 'Receitas',
+data: lista.map(o => o.total),
+borderColor: 'green',
+fill: false
+}]
+}
+});
+
+// Receitas vs Despesas
+new Chart(ctxBar, {
+type: 'bar',
+data: {
+labels: ['Receitas', 'Despesas'],
+datasets: [{
+label: 'Valores',
+data: [receitas, despesas],
+backgroundColor: ['green', 'red']
+}]
+}
+});
+}
+
+// Carrega ao abrir a página
+window.onload = carregarOrcamentos;

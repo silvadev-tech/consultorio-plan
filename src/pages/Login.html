@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+<!-- Barra de navegação superior -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Clínica</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="agenda.html">Agenda</a></li>
+                <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="dentistas.html">Dentistas</a></li>
+                <li class="nav-item"><a class="nav-link" href="orcamento.html">Orçamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="financeiro.html">Financeiro</a></li>
+                <li class="nav-item"><a class="nav-link active" href="suporte.html">Suporte Premium</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Conteúdo principal -->
+<main class="container mt-5 login-container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h2 class="text-center mb-4">Entrar</h2>
+            <form>
+                <div class="mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" name="senha" class="form-control" placeholder="Senha" required>
+                </div>
+
+                <!-- Botão com spinner -->
+                <button type="submit" id="login-btn" class="btn btn-primary w-100">
+                    Entrar
+                    <span class="spinner-border spinner-border-sm ms-2" style="display:none;"></span>
+                </button>
+
+                <!-- Mensagem de erro -->
+                <div class="alert alert-danger mt-3 error-message" style="display:none;">
+                    Email ou senha inválidos.
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- Script para simular spinner -->
+<script>
+    const btn = document.getElementById('login-btn');
+    const spinner = btn.querySelector('.spinner-border');
+    const errorMessage = document.querySelector('.error-message');
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      spinner.style.display = 'inline-block';
+      btn.disabled = true;
+      errorMessage.style.display = 'none';
+
+      // Simulação de login (3 segundos)
+      setTimeout(() => {
+        spinner.style.display = 'none';
+        btn.disabled = false;
+        // Aqui você pode validar login real com backend
+        alert('Login realizado com sucesso!');
+      }, 3000);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="agenda.css">
+</head>
+<body>
+<!-- Barra de navegação superior -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Clínica</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="agenda.html">Agenda</a></li>
+                <li class="nav-item"><a class="nav-link" href="pacientes.html">Pacientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="dentistas.html">Dentistas</a></li>
+                <li class="nav-item"><a class="nav-link" href="orcamento.html">Orçamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="financeiro.html">Financeiro</a></li>
+                <li class="nav-item"><a class="nav-link" href="suporte.html">Suporte Premium</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Conteúdo principal -->
+<main class="container mt-4 agenda-container">
+    <h2>Agenda de Compromissos</h2>
+
+    <!-- Lista de compromissos -->
+    <section class="appointments mb-4">
+        <h3>Próximos Compromissos</h3>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>10/04 - 09:00:</strong> Consulta com João Silva</li>
+            <li class="list-group-item"><strong>10/04 - 14:00:</strong> Retorno com Maria Souza</li>
+            <li class="list-group-item"><strong>11/04 - 11:00:</strong> Avaliação com Pedro Santos</li>
+        </ul>
+    </section>
+
+    <!-- Calendário -->
+    <section class="calendar">
+        <h3>Calendário</h3>
+        <div id="calendar" class="border rounded p-3 bg-light"></div>
+    </section>
+</main>
+
+<!-- Script para calendário -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        events: [
+          { title: 'Consulta João Silva', start: '2026-04-10T09:00:00' },
+          { title: 'Retorno Maria Souza', start: '2026-04-10T14:00:00' },
+          { title: 'Avaliação Pedro Santos', start: '2026-04-11T11:00:00' }
+        ]
+      });
+      calendar.render();
+    });
+</script>
+</body>
+</html>

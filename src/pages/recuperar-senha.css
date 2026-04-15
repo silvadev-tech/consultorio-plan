@@ -1,0 +1,80 @@
+/* Header */
+.navbar {
+  background-color: #6c63ff;
+  padding: 12px 20px;
+  border-radius: 0 0 12px 12px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar li a:hover {
+  color: #ffd700;
+}
+
+/* Container de recuperação */
+.recover-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.recover-container h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.recover-container p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Input */
+.recover-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.recover-container input:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 6px rgba(108,99,255,0.4);
+}
+
+/* Botão */
+.recover-container button {
+  width: 100%;
+  padding: 12px;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.recover-container button:hover {
+  background: #5a52d6;
+  transform: translateY(-2px);
+}

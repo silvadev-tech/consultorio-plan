@@ -1,0 +1,97 @@
+
+<script>
+    // Atualiza título conforme paciente
+    function atualizarTituloOrcamento(pacienteNome) {
+      const titulo = document.getElementById("tituloOrcamento");
+      if (pacienteNome && pacienteNome.trim() !== "") {
+        titulo.textContent = pacienteNome + " — Orçamento";
+      } else {
+        titulo.textContent = "Orçamento";
+      }
+    }
+
+    // Lê parâmetro da URL
+    const params = new URLSearchParams(window.location.search);
+    const paciente = params.get("paciente");
+
+    if (paciente) {
+      localStorage.setItem("pacienteOrcamento", paciente);
+      atualizarTituloOrcamento(paciente);
+    } else {
+      const pacienteSalvo = localStorage.getItem("pacienteOrcamento");
+      atualizarTituloOrcamento(pacienteSalvo);
+    }
+
+    function calcular() {
+      const checkboxes = document.querySelectorAll("#orcamentoForm input[type=checkbox]:checked");
+      const maoObra = parseFloat(document.getElementById("maoObra").value) || 0;
+      const descontoPercent = parseFloat(document.getElementById("desconto").value) || 0;
+
+      let subtotal = 0;
+      let procedimentos = [];
+
+      checkboxes.forEach(cb => {
+        subtotal += parseFloat(cb.value);
+        procedimentos.push(cb.dataset.nome);
+      });
+
+      const desconto = subtotal * (descontoPercent / 100);
+      const total = subtotal - desconto + maoObra;
+
+      // Salva orçamento completo no localStorage
+      const orcamento = {
+        paciente: localStorage.getItem("pacienteOrcamento") || null,
+        procedimentos,
+        subtotal,
+        descontoPercent,
+        desconto,
+        maoObra,
+        total,
+        data: new Date().toLocaleString()
+      };
+      localStorage.setItem("orcamentoAtual", JSON.stringify(orcamento));
+
+      document.getElementById("resumo").innerHTML = `
+        <p><strong>Procedimentos Selecionados:</strong> ${procedimentos.join(", ") || "Nenhum"}</p>
+        <p>Subtotal Procedimentos: R$ ${subtotal.toFixed(2)}</p>
+        <p>Desconto: ${descontoPercent}% (R$ ${desconto.toFixed(2)})</p>
+        <p>Mão de Obra do Cirurgião: R$ ${maoObra.toFixed(2)}</p>
+        <p><strong>Valor Total Estimado: R$ ${total.toFixed(2)}</strong></p>
+        <button class="btn btn-success mt-2" onclick="salvarOrcamento()">Salvar Orçamento</button>
+        <button class="btn btn-info mt-2" onclick="alert('PDF gerado e enviado via WhatsApp!')">Gerar PDF / Enviar WhatsApp</button>
+      `;
+    }
+
+    function salvarOrcamento() {
+      const orcamento = localStorage.getItem("orcamentoAtual");
+      if (orcamento) {
+        const dados = JSON.parse(orcamento);
+
+        // Recupera lista existente ou cria nova
+        let lista = JSON.parse(localStorage.getItem("listaOrcamentos")) || [];
+        lista.push(dados);
+
+        // Atualiza lista no localStorage
+        localStorage.setItem("listaOrcamentos", JSON.stringify(lista));
+
+        alert("Orçamento salvo com sucesso!");
+        console.log("Orçamento salvo:", dados);
+      }
+    }
+
+    // Ao carregar a página, tenta recuperar orçamento salvo
+    window.onload = () => {
+      const orcamentoSalvo = localStorage.getItem("orcamentoAtual");
+      if (orcamentoSalvo) {
+        const dados = JSON.parse(orcamentoSalvo);
+        atualizarTituloOrcamento(dados.paciente);
+        document.getElementById("resumo").innerHTML = `
+          <p><strong>Procedimentos Selecionados:</strong> ${dados.procedimentos.join(", ") || "Nenhum"}</p>
+          <p>Subtotal Procedimentos: R$ ${dados.subtotal.toFixed(2)}</p>
+          <p>Desconto: ${dados.descontoPercent}% (R$ ${dados.desconto.toFixed(2)})</p>
+          <p>Mão de Obra do Cirurgião: R$ ${dados.maoObra.toFixed(2)}</p>
+          <p><strong>Valor Total Estimado: R$ ${dados.total.toFixed(2)}</strong></p>
+        `;
+      }
+    };
+</script>

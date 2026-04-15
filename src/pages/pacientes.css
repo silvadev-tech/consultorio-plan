@@ -1,0 +1,103 @@
+/* Container principal */
+.pacientes-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Título */
+.pacientes-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Formulário */
+.paciente-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.paciente-form input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.paciente-form input:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 6px rgba(108,99,255,0.4);
+}
+
+.paciente-form button {
+  padding: 10px 16px;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.paciente-form button:hover {
+  background: #5a52d6;
+  transform: translateY(-2px);
+}
+
+/* Tabela */
+#pacientes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#pacientes-table th,
+#pacientes-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+#pacientes-table th {
+  background: #6c63ff;
+  color: #fff;
+}
+
+#pacientes-table tr:hover {
+  background: #f1f1f1;
+}
+
+/* Botões de ação */
+#pacientes-table button {
+  padding: 6px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+#pacientes-table .editar {
+  background: #ffd700;
+  color: #333;
+}
+
+#pacientes-table .editar:hover {
+  background: #e6c200;
+}
+
+#pacientes-table .excluir {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+#pacientes-table .excluir:hover {
+  background: #d93636;
+}

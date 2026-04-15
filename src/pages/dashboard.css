@@ -1,0 +1,163 @@
+/* Header */
+.navbar {
+  background-color: #6c63ff;
+  padding: 12px 20px;
+  border-radius: 0 0 12px 12px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar li a:hover,
+.navbar li a.active {
+  color: #ffd700;
+}
+
+/* Container principal */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 28px;
+}
+
+/* Cards de resumo */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  min-width: 250px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #6c63ff;
+  font-size: 18px;
+}
+
+.card p {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Área de gráficos */
+.charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.chart {
+  flex: 1;
+  min-width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.chart:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.chart h3 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+}
+
+/* Cards de planos */
+.planos {
+  margin-top: 40px;
+}
+
+.plano-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 12px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.plano-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.plano-card h3 {
+  margin-top: 0;
+  color: #6c63ff;
+  font-size: 20px;
+}
+
+.plano-card p {
+  margin: 6px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.alerta {
+  color: #b22222;
+  font-weight: bold;
+  margin-top: 10px;
+  background: #ffe4e1;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .cards {
+    flex-direction: column;
+  }
+  .charts {
+    flex-direction: column;
+  }
+  .plano-card {
+    margin: 12px auto;
+    width: 90%;
+  }
+}

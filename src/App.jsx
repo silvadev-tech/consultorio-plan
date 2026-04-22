@@ -1,17 +1,20 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard.jsx"; // corrigido para importar do arquivo certo
+import Cadastro from "./pages/Cadastro";   // importa o cadastro
+import Dashboard from "./pages/Dashboard.jsx";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/" />;
+  return token ? children : <Navigate to="/login" />;
 }
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        {/* rota inicial aponta para Cadastro */}
+        <Route path="/" element={<Cadastro />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
           element={
@@ -20,6 +23,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        
       </Routes>
     </BrowserRouter>
   );

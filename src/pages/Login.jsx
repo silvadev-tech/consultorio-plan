@@ -8,6 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [serverLoading, setServerLoading] = useState(true); // controla o ping inicial
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,8 +26,14 @@ export default function Login() {
 
     // 🔹 Ping automático para acordar o servidor Render
     api.get("/health")
-      .then(() => console.log("Servidor acordado"))
-      .catch(() => console.log("Servidor ainda iniciando..."));
+      .then(() => {
+        console.log("Servidor acordado");
+        setServerLoading(false);
+      })
+      .catch(() => {
+        console.log("Servidor ainda iniciando...");
+        setServerLoading(false);
+      });
   }, [navigate]);
 
   const handleLogin = async () => {
@@ -63,7 +70,14 @@ export default function Login() {
   return (
     <div className="login-container">
       <h2>Login</h2>
+
+      {/* Mensagem de ping inicial */}
+      {serverLoading && (
+        <p className="info-message">Conectando ao servidor... pode levar alguns segundos.</p>
+      )}
+
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+
       <input
         type="text"
         placeholder="Usuário"
@@ -83,6 +97,8 @@ export default function Login() {
       <button onClick={handleLogin} disabled={loading}>
         {loading ? <span className="spinner"></span> : "Entrar"}
       </button>
+
+      {/* Mensagem de carregamento ao clicar em Entrar */}
       {loading && <p>Conectando ao servidor... pode levar alguns segundos.</p>}
     </div>
   );

@@ -54,7 +54,7 @@ function renderizarPieChart(fechados, naoFechados) {
 // Função para carregar e renderizar planos
 async function carregarPlanos() {
   try {
-    const response = await fetch("http://localhost:8080/planos");
+    const response = await fetch("https://odontologia-1-ev6n.onrender.com/planos");
     const planos = await response.json();
 
     const container = document.getElementById("planos-container");
@@ -93,7 +93,7 @@ async function carregarPlanos() {
 // Função para assinar plano
 async function assinarPlano(planoId) {
   try {
-    const response = await fetch(`http://localhost:8080/planos/assinar/${planoId}`, {
+    const response = await fetch(`https://odontologia-1-ev6n.onrender.com/planos/assinar/${planoId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }
     });

@@ -1,5 +1,5 @@
 // src/services/authService.js
-import api from "./API";
+import api from "./api";
 
 const authService = {
   // Login

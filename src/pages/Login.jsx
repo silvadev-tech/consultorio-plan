@@ -16,12 +16,36 @@ export default function Login() {
     if (token) {
       navigate("/dashboard");
     }
+useEffect(() => {
+  // Se já houver token, redireciona direto para o dashboard
+  const token = localStorage.getItem("token");
+  if (token) {
+    navigate("/dashboard");
+  }
+
+  // Mensagem de sessão expirada
+  if (localStorage.getItem("sessionExpired")) {
+    setErrorMessage("Sua sessão expirou. Faça login novamente.");
+    localStorage.removeItem("sessionExpired");
+  }
+
+  // 🔹 Ping automático para acordar o servidor Render
+  api.get("/health")
+    .then(() => console.log("Servidor acordado"))
+    .catch(() => console.log("Servidor ainda iniciando..."));
+}, [navigate]);
+
 
     // Mensagem de sessão expirada
     if (localStorage.getItem("sessionExpired")) {
       setErrorMessage("Sua sessão expirou. Faça login novamente.");
       localStorage.removeItem("sessionExpired");
     }
+
+    // Ping automático para acordar o servidor Render
+    api.get("/health")
+      .then(() => console.log("Servidor acordado"))
+      .catch(() => console.log("Servidor ainda iniciando..."));
   }, [navigate]);
 
   const handleLogin = async () => {
@@ -79,7 +103,7 @@ export default function Login() {
       <button onClick={handleLogin} disabled={loading}>
         {loading ? <span className="spinner"></span> : "Entrar"}
       </button>
+      {loading && <p>Conectando ao servidor... pode levar alguns segundos.</p>}
     </div>
   );
 }
-// tentando dar um deploy forçadoS

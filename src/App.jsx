@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard.jsx"; // corrigido para importar do arquivo certo
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");

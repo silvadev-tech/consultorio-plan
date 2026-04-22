@@ -16,25 +16,6 @@ export default function Login() {
     if (token) {
       navigate("/dashboard");
     }
-useEffect(() => {
-  // Se já houver token, redireciona direto para o dashboard
-  const token = localStorage.getItem("token");
-  if (token) {
-    navigate("/dashboard");
-  }
-
-  // Mensagem de sessão expirada
-  if (localStorage.getItem("sessionExpired")) {
-    setErrorMessage("Sua sessão expirou. Faça login novamente.");
-    localStorage.removeItem("sessionExpired");
-  }
-
-  // 🔹 Ping automático para acordar o servidor Render
-  api.get("/health")
-    .then(() => console.log("Servidor acordado"))
-    .catch(() => console.log("Servidor ainda iniciando..."));
-}, [navigate]);
-
 
     // Mensagem de sessão expirada
     if (localStorage.getItem("sessionExpired")) {
@@ -42,7 +23,7 @@ useEffect(() => {
       localStorage.removeItem("sessionExpired");
     }
 
-    // Ping automático para acordar o servidor Render
+    // 🔹 Ping automático para acordar o servidor Render
     api.get("/health")
       .then(() => console.log("Servidor acordado"))
       .catch(() => console.log("Servidor ainda iniciando..."));
@@ -52,7 +33,6 @@ useEffect(() => {
     setLoading(true);
     setErrorMessage("");
 
-    // Validação simples antes de enviar
     if (!username || !password) {
       setErrorMessage("Preencha usuário e senha.");
       setLoading(false);

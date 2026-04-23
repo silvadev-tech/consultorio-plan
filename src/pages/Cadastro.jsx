@@ -1,19 +1,43 @@
 import React, { useState } from "react";
+import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Cadastro() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [clinica, setClinica] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // Aqui você chama sua API de cadastro
-    console.log({ nome, email, senha, clinica });
+    setErrorMessage("");
+
+    if (!nome || !email || !senha || !clinica) {
+      setErrorMessage("Preencha todos os campos.");
+      return;
+    }
+
+    try {
+      await api.post("/auth/register", {
+        nome,
+        email,
+        senha,
+        tenantId: clinica, // 🔹 enviando como tenantId
+      });
+
+      // Depois de cadastrar, redireciona para login
+      navigate("/login");
+    } catch (error) {
+      setErrorMessage("Erro ao cadastrar. Tente novamente.");
+    }
   };
 
   return (
     <form onSubmit={handleRegister}>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
       <input
         type="text"
         placeholder="Nome"

@@ -1,49 +1,45 @@
 import React, { useState } from "react";
-import "./cadastro.css"; // importa o estilo
 
-function Cadastro() {
+export default function Cadastro() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [clinica, setClinica] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
-    // aqui você pode integrar com sua API
-    console.log("Dados enviados:", { nome, email, senha });
-    alert("Cadastro realizado com sucesso!");
+    // Aqui você chama sua API de cadastro
+    console.log({ nome, email, senha, clinica });
   };
 
   return (
-    <div className="cadastro-container">
-      <h1>Cadastro</h1>
-      <form className="cadastro-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-        />
-        <button type="submit" className="cadastro-button">
-          Registrar
-        </button>
-      </form>
-      <p>
-        Já tem conta? <a href="/login">Faça login</a>
-      </p>
-    </div>
+    <form onSubmit={handleRegister}>
+      <input
+        type="text"
+        placeholder="Nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Nome da clínica"
+        value={clinica}
+        onChange={(e) => setClinica(e.target.value)}
+      />
+
+      <button type="submit">Cadastrar</button>
+    </form>
   );
 }
-
-export default Cadastro;

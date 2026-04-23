@@ -6,7 +6,7 @@ import "./Login.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [tenantId, setTenantId] = useState(""); // 🔹 novo campo
+  const [clinica, setClinica] = useState(""); // 🔹 campo atualizado
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [serverLoading, setServerLoading] = useState(true);
@@ -38,8 +38,8 @@ export default function Login() {
     setLoading(true);
     setErrorMessage("");
 
-    if (!username || !password || !tenantId) {
-      setErrorMessage("Preencha usuário, senha e tenant.");
+    if (!username || !password || !clinica) {
+      setErrorMessage("Preencha usuário, senha e nome da clínica.");
       setLoading(false);
       return;
     }
@@ -48,7 +48,7 @@ export default function Login() {
       const response = await api.post("/auth/login", {
         username,
         password,
-        tenantId, // 🔹 agora enviado junto
+        tenantId: clinica, // 🔹 enviando como tenantId
       });
 
       const token = response.data.token;
@@ -94,9 +94,9 @@ export default function Login() {
       <br />
       <input
         type="text"
-        placeholder="Tenant"
-        value={tenantId}
-        onChange={(e) => setTenantId(e.target.value)}
+        placeholder="Nome da clínica" // 🔹 alterado para ficar claro
+        value={clinica}
+        onChange={(e) => setClinica(e.target.value)}
         disabled={loading}
       />
       <br />

@@ -3,7 +3,7 @@ import axios from "axios";
 import authService from "./authService";
 
 const api = axios.create({
-  baseURL: "https://odontologia-1-ev6n.onrender.com",
+  baseURL: "https://odontologia-production-7891.up.railway.app",
   headers: {
     "Content-Type": "application/json"
   }

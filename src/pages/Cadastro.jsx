@@ -67,3 +67,4 @@ export default function Cadastro() {
     </form>
   );
 }
+// adicionado botão clinica

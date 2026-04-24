@@ -12,3 +12,4 @@ export default defineConfig({
     }
   }
 })
+// vite ja refatorado e com as modificações

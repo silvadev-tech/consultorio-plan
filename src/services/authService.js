@@ -13,7 +13,8 @@ const authService = {
 
   // Cadastro (signup)
   signup: async (dados) => {
-    const response = await api.post("/auth/signup", dados);
+    // ✅ ajustado para /auth/register
+    const response = await api.post("/auth/register", dados);
     return response.data;
   },
 
@@ -36,3 +37,4 @@ const authService = {
 };
 
 export default authService;
+// redeploy nunca é demaisS

@@ -6,6 +6,7 @@ document.querySelector(".signup-container form").addEventListener("submit", asyn
     nome: e.target.nome.value,
     email: e.target.email.value,
     senha: e.target.senha.value,
+    clinica: e.target.clinica.value;
   };
   try {
     await authService.signup(dados);

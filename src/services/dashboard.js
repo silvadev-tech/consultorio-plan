@@ -1,13 +1,14 @@
 import Chart from "chart.js/auto";
+import planoService from "../services/planoService"; // importa o service
 
-// Função para atualizar os cards de resumo
+// Atualiza os cards de resumo
 function atualizarCards({ orcamentos, fechados, taxa }) {
   document.getElementById("total-orcamentos").textContent = orcamentos;
   document.getElementById("tratamentos-fechados").textContent = fechados;
   document.getElementById("taxa-conversao").textContent = `${taxa}%`;
 }
 
-// Função para renderizar gráfico de barras
+// Renderiza gráfico de barras
 function renderizarBarChart(meses, conversoes) {
   const ctxBar = document.getElementById("barChart").getContext("2d");
   new Chart(ctxBar, {
@@ -30,7 +31,7 @@ function renderizarBarChart(meses, conversoes) {
   });
 }
 
-// Função para renderizar gráfico de pizza
+// Renderiza gráfico de pizza
 function renderizarPieChart(fechados, naoFechados) {
   const ctxPie = document.getElementById("pieChart").getContext("2d");
   new Chart(ctxPie, {
@@ -51,11 +52,11 @@ function renderizarPieChart(fechados, naoFechados) {
   });
 }
 
-// Função para carregar e renderizar planos
+// Carrega e renderiza planos
 async function carregarPlanos() {
   try {
-    const response = await fetch("https://odontologia-1-ev6n.onrender.com/planos");
-    const planos = await response.json();
+    const planos = await planoService.listar(); // usa o service
+    const tipos = await planoService.listarTipos(); // nomes oficiais do enum
 
     const container = document.getElementById("planos-container");
     container.innerHTML = "";
@@ -64,47 +65,45 @@ async function carregarPlanos() {
       const card = document.createElement("div");
       card.className = "plano-card";
 
-      // Alerta visual se estiver perto do limite
-      let alerta = "";
-      if (plano.limitePacientes && plano.pacientesCadastrados) {
-        const ocupacao = (plano.pacientesCadastrados / plano.limitePacientes) * 100;
-        if (ocupacao >= 80) {
-          alerta = `<p class="alerta">⚠️ Atenção: você já atingiu ${ocupacao.toFixed(0)}% do limite de pacientes!</p>`;
-        }
-      }
-
       card.innerHTML = `
         <h3>${plano.nome}</h3>
-        <p><strong>Preço:</strong> R$ ${plano.preco}</p>
+        <p><strong>Preço:</strong> R$ ${plano.valor}</p>
         <p><strong>Limite de pacientes:</strong> ${plano.limitePacientes}</p>
-        <p><strong>Valor excedente:</strong> R$ ${plano.valorExcedente} por paciente</p>
-        <p><strong>Benefícios:</strong> ${plano.beneficios}</p>
-        ${alerta}
+        <p><strong>Funcionalidades:</strong> ${plano.funcionalidades.join(", ")}</p>
         <button class="btn-assinar" data-id="${plano.id}">Escolher Plano</button>
       `;
 
       container.appendChild(card);
     });
+
+    // Exibe os tipos oficiais em console (ou pode renderizar em tela)
+    console.log("Tipos de plano disponíveis:", tipos);
+
   } catch (error) {
     console.error("Erro ao carregar planos:", error);
   }
 }
 
-// Função para assinar plano
+// Assinar plano
 async function assinarPlano(planoId) {
   try {
-    const response = await fetch(`https://odontologia-1-ev6n.onrender.com/planos/assinar/${planoId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }
-    });
-    if (response.ok) {
-      alert("Plano assinado com sucesso!");
-      carregarPlanos(); // Atualiza a tela
-    } else {
-      alert("Erro ao assinar o plano.");
-    }
+    const planoAssinado = await planoService.assinar(planoId);
+    alert(`Plano "${planoAssinado.nome}" assinado com sucesso!`);
+
+    // Atualiza seção do plano ativo
+    const planoAtivoContainer = document.getElementById("plano-ativo");
+    planoAtivoContainer.innerHTML = `
+      <h2>Plano Ativo</h2>
+      <p><strong>Nome:</strong> ${planoAssinado.nome}</p>
+      <p><strong>Preço:</strong> R$ ${planoAssinado.valor}</p>
+      <p><strong>Limite de pacientes:</strong> ${planoAssinado.limitePacientes}</p>
+      <p><strong>Funcionalidades:</strong> ${planoAssinado.funcionalidades.join(", ")}</p>
+    `;
+
+    carregarPlanos();
   } catch (error) {
-    console.error("Erro na requisição:", error);
+    console.error("Erro ao assinar plano:", error);
+    alert("Erro ao assinar o plano.");
   }
 }
 
@@ -118,16 +117,19 @@ document.addEventListener("click", (e) => {
 
 // Inicialização
 document.addEventListener("DOMContentLoaded", () => {
-  // Atualiza cards com dados simulados (depois conecta com services reais)
-  atualizarCards({ orcamentos: 120, fechados: 85, taxa: 70.8 });
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Você precisa estar logado para acessar o dashboard.");
+    window.location.href = "/login.html";
+    return;
+  }
 
-  // Renderiza gráficos
+  atualizarCards({ orcamentos: 120, fechados: 85, taxa: 70.8 });
   renderizarBarChart(
     ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
     [20,40,60,80,50,70,90,100,85,75,65,95]
   );
   renderizarPieChart(85, 35);
 
-  // Carrega planos
   carregarPlanos();
 });

@@ -1,3 +1,4 @@
+import Chart from "chart.js/auto";
 import api from "../services/api";
 import planoService from "../services/planoService";
 
@@ -61,7 +62,8 @@ function renderizarBarChart(labels, data) {
     options: {
       responsive: true,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        title: { display: true, text: "Conversões Mensais" }
       }
     }
   });
@@ -80,26 +82,65 @@ function renderizarPieChart(fechados, naoFechados) {
       }]
     },
     options: {
-      responsive: true
+      responsive: true,
+      plugins: {
+        title: { display: true, text: "Fechados vs Não Fechados" }
+      }
     }
   });
 }
 
-// Renderiza tabela de planos
+// Renderiza cards comparativos de planos
 function carregarPlanos(planos) {
-  const tbody = document.querySelector("#planos-table tbody");
-  if (!tbody) return;
+  const container = document.getElementById("planos-container");
+  if (!container) return;
 
-  tbody.innerHTML = "";
-  planos.forEach(({ nome, preco }) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${nome}</td>
-      <td>${preco.toFixed(2)}</td>
+  container.innerHTML = "";
+  planos.forEach(({ id, nome, valor, limitePacientes, funcionalidades }) => {
+    const col = document.createElement("div");
+    col.className = "col-md-4";
+
+    col.innerHTML = `
+      <div class="plano-card">
+        <h3>${nome}</h3>
+        <p><strong>Preço:</strong> R$ ${valor.toFixed(2)}/mês</p>
+        <ul>
+          <li>✓ Limite: ${limitePacientes} pacientes</li>
+          <li>✓ Funcionalidades: ${funcionalidades.join(", ")}</li>
+        </ul>
+        <button class="btn-assinar" data-id="${id}">Escolher Plano</button>
+      </div>
     `;
-    tbody.appendChild(tr);
+
+    container.appendChild(col);
   });
 }
+
+// Listener para assinar plano
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("btn-assinar")) {
+    const planoId = e.target.getAttribute("data-id");
+    try {
+      const planoAssinado = await planoService.assinar(planoId);
+      alert(`Plano "${planoAssinado.nome}" assinado com sucesso!`);
+
+      // Atualiza seção de plano ativo
+      const planoAtivoContainer = document.getElementById("plano-ativo");
+      if (planoAtivoContainer) {
+        planoAtivoContainer.innerHTML = `
+          <h2>Plano Ativo</h2>
+          <p><strong>Nome:</strong> ${planoAssinado.nome}</p>
+          <p><strong>Preço:</strong> R$ ${planoAssinado.valor.toFixed(2)}</p>
+          <p><strong>Limite de pacientes:</strong> ${planoAssinado.limitePacientes}</p>
+          <p><strong>Funcionalidades:</strong> ${planoAssinado.funcionalidades.join(", ")}</p>
+        `;
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao assinar plano.");
+    }
+  }
+});
 
 // Inicialização
 document.addEventListener("DOMContentLoaded", carregarResumo);

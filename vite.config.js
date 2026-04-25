@@ -9,7 +9,13 @@ export default defineConfig({
   server: {
     headers: {
       'Cache-Control': 'no-cache'
+    },
+    proxy: {
+      '/dentistas': {
+        target: 'http://localhost:8080', // porta do Spring Boot
+        changeOrigin: true,
+        secure: false
+      }
     }
   }
 })
-// vite ja refatorado e com as modificações

@@ -1,40 +1,38 @@
-// src/services/authService.js
 import api from "./api";
 
 const authService = {
-  // Login
-  login: async (email, senha) => {
-    const response = await api.post("/auth/login", { email, senha });
-    if (response.data.token) {
-      localStorage.setItem("token", response.data.token);
+  // Cadastro de usuário dentista
+  signup: async ({ nome, email, senha, clinica, role, planoId }) => {
+    try {
+      const { data } = await api.post("/auth/register", {
+        name: nome,
+        email: email,
+        senha: senha,
+        clinica: clinica,
+        role: role,
+        planoId: planoId, // agora enviando o plano escolhido
+      });
+      return data;
+    } catch (error) {
+      throw new Error("Erro ao registrar usuário.");
     }
-    return response.data;
   },
 
-  // Cadastro (signup)
-  signup: async (dados) => {
-    // ✅ ajustado para /auth/register
-    const response = await api.post("/auth/register", dados);
-    return response.data;
+  // Login de usuário dentista
+  login: async (email, senha, clinica) => {
+    try {
+      const { data } = await api.post("/auth/login", {
+        email: email,
+        senha: senha,
+        clinica: clinica,
+      });
+      // salva token no localStorage
+      localStorage.setItem("token", data.token);
+      return data;
+    } catch (error) {
+      throw new Error("Erro ao fazer login.");
+    }
   },
-
-  // Recuperação de senha
-  recoverPassword: async (email) => {
-    const response = await api.post("/auth/recover", { email });
-    return response.data;
-  },
-
-  // Logout
-  logout: () => {
-    localStorage.removeItem("token");
-    window.location.href = "/"; // redireciona para login
-  },
-
-  // Obter token
-  getToken: () => {
-    return localStorage.getItem("token");
-  }
 };
 
 export default authService;
-// redeploy nunca é demaisS

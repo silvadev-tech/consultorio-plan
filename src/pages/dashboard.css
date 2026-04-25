@@ -41,17 +41,7 @@
 }
 
 /* Cards de resumo */
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  gap: 20px;
-}
-
 .card {
-  flex: 1;
-  min-width: 250px;
   background: #f9f9f9;
   border-radius: 12px;
   padding: 20px;
@@ -71,23 +61,14 @@
   font-size: 18px;
 }
 
-.card p {
+.card-value {
   font-size: 26px;
   font-weight: bold;
   color: #333;
 }
 
 /* Área de gráficos */
-.charts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-}
-
 .chart {
-  flex: 1;
-  min-width: 300px;
   background: #fff;
   border-radius: 12px;
   padding: 20px;
@@ -107,57 +88,83 @@
   font-size: 18px;
 }
 
-/* Cards de planos */
+/* Tabela de planos */
 .planos {
   margin-top: 40px;
 }
 
-.plano-card {
-  border: 1px solid #ccc;
-  border-radius: 12px;
+#planos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#planos-table th,
+#planos-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+#planos-table th {
+  background-color: #6c63ff;
+  color: #fff;
+  font-weight: bold;
+}
+
+#planos-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#planos-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.btn-assinar {
+  background-color: #6c63ff;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-assinar:hover {
+  background-color: #4b47cc;
+}
+
+/* Seção do plano ativo */
+.plano-ativo {
+  margin-top: 40px;
   padding: 20px;
-  margin: 12px 0;
+  border-radius: 12px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-.plano-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-
-.plano-card h3 {
-  margin-top: 0;
+.plano-ativo h2 {
   color: #6c63ff;
-  font-size: 20px;
+  margin-bottom: 15px;
 }
 
-.plano-card p {
-  margin: 6px 0;
+.plano-ativo p {
   font-size: 16px;
   color: #333;
-}
-
-.alerta {
-  color: #b22222;
-  font-weight: bold;
-  margin-top: 10px;
-  background: #ffe4e1;
-  padding: 8px;
-  border-radius: 6px;
+  margin: 6px 0;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .cards {
     flex-direction: column;
+    gap: 20px;
   }
   .charts {
     flex-direction: column;
+    gap: 20px;
   }
-  .plano-card {
-    margin: 12px auto;
-    width: 90%;
+  #planos-table {
+    font-size: 14px;
   }
 }

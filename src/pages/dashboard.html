@@ -73,24 +73,22 @@
         </div>
     </section>
 
-    <!-- Área para planos -->
-    <section class="planos">
+    <!-- Quadro comparativo dos planos -->
+    <section class="planos-comparativo mb-4">
         <h2>Planos Disponíveis</h2>
-        <table id="planos-table" class="table table-striped">
-            <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Preço</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Linhas preenchidas dinamicamente pelo dashboard.js -->
-            </tbody>
-        </table>
+        <div class="row" id="planos-container">
+            <!-- Os cards dos planos serão preenchidos dinamicamente pelo dashboard.js -->
+        </div>
+    </section>
+
+    <!-- Seção do plano ativo -->
+    <section id="plano-ativo" class="plano-ativo">
+        <h2>Plano Ativo</h2>
+        <p>Nenhum plano assinado ainda.</p>
     </section>
 </main>
 
 <!-- Script externo -->
-<script src="dashboard.js"></script>
+<script src="dashboard.js" type="module"></script>
 </body>
 </html>

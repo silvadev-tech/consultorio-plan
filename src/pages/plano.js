@@ -6,48 +6,34 @@ async function carregarPlanos() {
     const tbody = document.querySelector("#planos-table tbody");
     if (!tbody) return;
 
-    tbody.innerHTML = ""; // limpa antes de renderizar
+    tbody.innerHTML = "";
 
-    planos.forEach(({ nome, preco }) => {
+    planos.forEach(({ id, nome, preco }) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${nome}</td>
-        <td>${preco.toFixed(2)}</td>
+        <td>R$ ${preco.toFixed(2)}</td>
+        <td><button class="selecionar-plano" data-id="${id}" data-nome="${nome}">Selecionar</button></td>
       `;
       tbody.appendChild(tr);
     });
+
+    // adiciona listeners nos botões
+    document.querySelectorAll(".selecionar-plano").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const planoId = e.target.dataset.id;
+        const planoNome = e.target.dataset.nome;
+        // salva escolha do plano
+        localStorage.setItem("planoEscolhidoId", planoId);
+        localStorage.setItem("planoEscolhidoNome", planoNome);
+        // redireciona para cadastro
+        window.location.href = "/cadastro.html";
+      });
+    });
   } catch (err) {
-    alert("Erro ao carregar planos. Verifique sua conexão.");
+    alert("Erro ao carregar planos.");
     console.error(err);
   }
 }
 
-// Inicialização ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarPlanos);
-
-// Listener para criar plano
-const form = document.querySelector(".plano-form");
-if (form) {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const dados = {
-      nome: e.target.nome.value.trim(),
-      preco: parseFloat(e.target.preco.value),
-    };
-
-    if (!dados.nome || isNaN(dados.preco)) {
-      alert("Preencha todos os campos corretamente.");
-      return;
-    }
-
-    try {
-      await planoService.criar(dados);
-      alert("Plano cadastrado com sucesso!");
-      carregarPlanos(); // recarrega lista depois de cadastrar
-      form.reset(); // limpa o formulário
-    } catch (err) {
-      alert("Erro ao cadastrar plano. Tente novamente.");
-      console.error(err);
-    }
-  });
-}

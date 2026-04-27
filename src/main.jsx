@@ -7,6 +7,6 @@ axios.defaults.baseURL = 'https://railway.app';
 ReactDOM.createRoot(document.getElementById('root')).render(
 <ReactDOM.StrictMode>
 <App />
-</React.StrictMode>,
+</ReactDOM.StrictMode>,
 )
 

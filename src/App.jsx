@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Plano from "./pages/plano";
+import Plano from "./pages/Plano";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";   // importa o cadastro
 import Dashboard from "./pages/Dashboard.jsx";

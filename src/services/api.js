@@ -1,34 +1,37 @@
-// src/services/api.js
 import axios from "axios";
-import authService from "./authService";
+
+// Substitua pela sua URL real do Railway (com https://)
+const API_URL = "https://odontologia-production-7891.up.railway.app";
 
 const api = axios.create({
-  baseURL: "https://odontologia-production-7891.up.railway.app",
+  baseURL: API_URL,
   headers: {
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 });
 
-// Interceptor para adicionar token automaticamente
+// Interceptor para adicionar o token JWT em todas as chamadas
 api.interceptors.request.use(
   (config) => {
-    const token = authService.getToken();
+    const token = localStorage.getItem("token"); // ou use seu authService.getToken()
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
-// Interceptor para tratar erros de autenticação
+// Interceptor para tratar erros globais (como token expirado)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Token inválido ou expirado → remove e redireciona
-      authService.logout();
-      localStorage.setItem("sessionExpired", "true");
+      // Se der erro 401 (Não autorizado), limpa o token e manda pro login
+      localStorage.removeItem("token");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

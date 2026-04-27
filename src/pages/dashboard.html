@@ -21,6 +21,8 @@
                 <li class="nav-item"><a class="nav-link" href="financeiro.html">Financeiro</a></li>
                 <li class="nav-item"><a class="nav-link" href="suporte.html">Suporte Premium</a></li>
             </ul>
+            <!-- Nome do usuário logado -->
+            <span id="user-name" class="navbar-text text-white ms-auto"></span>
         </div>
     </div>
 </nav>
@@ -84,11 +86,31 @@
     <!-- Seção do plano ativo -->
     <section id="plano-ativo" class="plano-ativo">
         <h2>Plano Ativo</h2>
-        <p>Nenhum plano assinado ainda.</p>
+        <p id="plano-info">Nenhum plano assinado ainda.</p>
     </section>
 </main>
 
 <!-- Script externo -->
 <script src="dashboard.js" type="module"></script>
+
+<!-- Script para exibir nome e plano ativo -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const name = localStorage.getItem("name");
+        const tenantId = localStorage.getItem("tenantId");
+        const role = localStorage.getItem("role");
+        const plano = localStorage.getItem("plano"); // se você salvar o plano no login
+
+        if (name) {
+            document.getElementById("user-name").textContent = "Bem-vindo, " + name;
+        }
+
+        if (plano) {
+            document.getElementById("plano-info").textContent = "Plano ativo: " + plano;
+        } else {
+            document.getElementById("plano-info").textContent = "Nenhum plano assinado ainda.";
+        }
+    });
+</script>
 </body>
 </html>

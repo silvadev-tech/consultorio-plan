@@ -21,6 +21,8 @@
                 <li class="nav-item"><a class="nav-link" href="financeiro.html">Financeiro</a></li>
                 <li class="nav-item"><a class="nav-link active" href="suporte.html">Suporte Premium</a></li>
             </ul>
+            <!-- Nome do usuário logado -->
+            <span id="user-name" class="navbar-text text-white ms-auto"></span>
         </div>
     </div>
 </nav>
@@ -30,12 +32,16 @@
     <div class="row justify-content-center">
         <div class="col-md-4">
             <h2 class="text-center mb-4">Entrar</h2>
-            <form>
+            <form id="login-form">
                 <div class="mb-3">
                     <input type="email" name="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="senha" class="form-control" placeholder="Senha" required>
+                    <input type="password" name="senha" class="form-control"
+                           placeholder="Senha (6 dígitos)"
+                           required minlength="6" maxlength="6"
+                           pattern="\d{6}"
+                           title="A senha deve ter exatamente 6 dígitos numéricos">
                 </div>
 
                 <!-- Botão com spinner -->
@@ -53,25 +59,64 @@
     </div>
 </main>
 
-<!-- Script para simular spinner -->
+<!-- Script para validação e login -->
 <script>
     const btn = document.getElementById('login-btn');
     const spinner = btn.querySelector('.spinner-border');
     const errorMessage = document.querySelector('.error-message');
+    const form = document.getElementById('login-form');
 
-    btn.addEventListener('click', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       spinner.style.display = 'inline-block';
       btn.disabled = true;
       errorMessage.style.display = 'none';
 
-      // Simulação de login (3 segundos)
-      setTimeout(() => {
+      const email = form.querySelector('[name="email"]').value;
+      const senha = form.querySelector('[name="senha"]').value;
+
+      if (!/^\d{6}$/.test(senha)) {
         spinner.style.display = 'none';
         btn.disabled = false;
-        // Aqui você pode validar login real com backend
-        alert('Login realizado com sucesso!');
-      }, 3000);
+        errorMessage.textContent = "A senha deve ter exatamente 6 dígitos numéricos.";
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      try {
+        // chamada real ao backend
+        const response = await fetch("/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, senha, clinica: "MinhaClinica" }) // ajuste conforme necessário
+        });
+
+        if (!response.ok) {
+          throw new Error("Login inválido");
+        }
+
+        const data = await response.json();
+        // salva token no localStorage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("tenantId", data.tenantId);
+        localStorage.setItem("role", data.role);
+        localStorage.setItem("name", data.name);
+
+        // mostra nome do usuário na navbar
+        document.getElementById("user-name").textContent = "Bem-vindo, " + data.name;
+
+        spinner.style.display = 'none';
+        btn.disabled = false;
+
+        // redireciona para dashboard
+        window.location.href = "dashboard.html";
+
+      } catch (err) {
+        spinner.style.display = 'none';
+        btn.disabled = false;
+        errorMessage.textContent = "Email ou senha inválidos.";
+        errorMessage.style.display = 'block';
+      }
     });
 </script>
 </body>

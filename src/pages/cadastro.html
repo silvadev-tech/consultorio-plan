@@ -30,7 +30,13 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <h2 class="text-center mb-4">Criar Conta</h2>
-            <form>
+
+            <!-- Plano escolhido -->
+            <div id="plano-escolhido" class="alert alert-info text-center mb-4">
+                Você está se cadastrando no plano selecionado.
+            </div>
+
+            <form id="cadastro-form">
                 <div class="mb-3">
                     <input type="text" name="nome" class="form-control" placeholder="Nome completo" required>
                 </div>
@@ -38,18 +44,44 @@
                     <input type="email" name="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="senha" class="form-control" placeholder="Senha" required>
+                    <input type="password" name="senha" class="form-control"
+                           placeholder="Senha (6 dígitos)"
+                           required minlength="6" maxlength="6"
+                           pattern="\d{6}"
+                           title="A senha deve ter exatamente 6 dígitos numéricos">
                 </div>
                 <div class="mb-3">
-                    <input type="password" name="confirmar-senha" class="form-control" placeholder="Confirmar senha" required>
+                    <input type="password" name="confirmar-senha" class="form-control"
+                           placeholder="Confirmar senha" required>
                 </div>
                 <button type="submit" class="btn btn-success w-100">Cadastrar</button>
             </form>
+
             <p class="text-center mt-3">
                 Já tem uma conta? <a href="login.html">Faça Login</a>
             </p>
         </div>
     </div>
 </main>
+
+<script>
+    // Captura planoId da URL e mostra no alerta
+    const params = new URLSearchParams(window.location.search);
+    const planoId = params.get("planoId");
+    if (planoId) {
+      document.getElementById("plano-escolhido").textContent =
+        "Você está se cadastrando no plano ID: " + planoId;
+    }
+
+    // Validação simples de senha igual
+    document.getElementById("cadastro-form").addEventListener("submit", function(e) {
+      const senha = this.querySelector("[name='senha']").value;
+      const confirmar = this.querySelector("[name='confirmar-senha']").value;
+      if (senha !== confirmar) {
+        e.preventDefault();
+        alert("As senhas não conferem!");
+      }
+    });
+</script>
 </body>
 </html>

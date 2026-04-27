@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";   // importa o cadastro
 import Dashboard from "./pages/Dashboard.jsx";
 
-function PrivateRoute({ children }) {
+function PrivateRoute({ children }) {,
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/login" />;
 }

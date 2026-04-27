@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Plano from "./pages/plano";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";   // importa o cadastro
 import Dashboard from "./pages/Dashboard.jsx";
@@ -12,9 +13,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* rota inicial aponta para Cadastro */}
-        <Route path="/" element={<Cadastro />} />
-        <Route path="/login" element={<Login />} />
+        {/* rota inicial aponta para Planos */}
+        <Route path="/" element={<Plano />} />
+        <Route path="/cadastro" element={<Cadastro />} />
         <Route
           path="/dashboard"
           element={

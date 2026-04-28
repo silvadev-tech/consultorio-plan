@@ -4,9 +4,8 @@ import api from "../services/api";
 import "./Login.css";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [clinica, setClinica] = useState(""); // 🔹 campo atualizado
+  const [email, setEmail] = useState(""); // Mudamos para email
+  const [senha, setSenha] = useState(""); // Mudamos para senha (igual ao Java)
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [serverLoading, setServerLoading] = useState(true);
@@ -23,41 +22,42 @@ export default function Login() {
       localStorage.removeItem("sessionExpired");
     }
 
-    api.get("/health")
-      .then(() => {
-        console.log("Servidor acordado");
-        setServerLoading(false);
-      })
-      .catch(() => {
-        console.log("Servidor ainda iniciando...");
-        setServerLoading(false);
-      });
+    // Acorda o servidor no Railway
+    api.get("/planos") // Usando uma rota que sabemos que existe
+      .then(() => setServerLoading(false))
+      .catch(() => setServerLoading(false));
   }, [navigate]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    if (e) e.preventDefault();
     setLoading(true);
     setErrorMessage("");
 
-    if (!username || !password || !clinica) {
-      setErrorMessage("Preencha usuário, senha e nome da clínica.");
+    if (!email || !senha) {
+      setErrorMessage("Preencha e-mail e senha.");
       setLoading(false);
       return;
     }
 
     try {
+      // O objeto enviado deve bater com o seu LoginDTO no Java
       const response = await api.post("/auth/login", {
-        username,
-        password,
-        tenantId: clinica, // 🔹 enviando como tenantId
+        email, // Enviando como email
+        senha  // Enviando como senha (importante!)
       });
 
       const token = response.data.token;
       localStorage.setItem("token", token);
 
+      // Limpa dados temporários do plano após o login com sucesso
+      localStorage.removeItem("planoEscolhidoId");
+      localStorage.removeItem("planoEscolhidoNome");
+
       navigate("/dashboard");
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("Usuário ou senha inválidos.");
+      console.error("Erro no login:", error.response?.data);
+      if (error.response && error.response.status === 403) {
+        setErrorMessage("E-mail ou senha incorretos.");
       } else {
         setErrorMessage("Erro ao conectar com o servidor. Tente novamente.");
       }
@@ -68,43 +68,37 @@ export default function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Login OdontoPlan</h2>
 
       {serverLoading && (
-        <p className="info-message">Conectando ao servidor... pode levar alguns segundos.</p>
+        <p className="info-message">Conectando ao servidor... aguarde.</p>
       )}
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <input
-        type="text"
-        placeholder="Usuário"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        disabled={loading}
-      />
-      <br />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={loading}
-      />
-      <br />
-      <input
-        type="text"
-        placeholder="Nome da clínica" // 🔹 alterado para ficar claro
-        value={clinica}
-        onChange={(e) => setClinica(e.target.value)}
-        disabled={loading}
-      />
-      <br />
-      <button onClick={handleLogin} disabled={loading}>
-        {loading ? <span className="spinner"></span> : "Entrar"}
-      </button>
-
-      {loading && <p>Conectando ao servidor... pode levar alguns segundos.</p>}
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
+          autoComplete="email"
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          disabled={loading}
+          autoComplete="current-password"
+        />
+        <br />
+        <button type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </button>
+      </form>
     </div>
   );
 }

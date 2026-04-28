@@ -3,7 +3,7 @@ import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Cadastro() {
-  const [nome, setNome] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [clinica, setClinica] = useState("");
@@ -14,14 +14,14 @@ export default function Cadastro() {
     e.preventDefault();
     setErrorMessage("");
 
-    if (!nome || !email || !senha || !clinica) {
+    if (!name || !email || !senha || !clinica) {
       setErrorMessage("Preencha todos os campos.");
       return;
     }
 
     try {
       await api.post("/auth/register", {
-        nome,
+        name,
         email,
         senha,
         tenantId: clinica, // 🔹 enviando como tenantId
@@ -40,7 +40,7 @@ export default function Cadastro() {
 
       <input
         type="text"
-        placeholder="Nome"
+        placeholder="Name"
         value={nome}
         onChange={(e) => setNome(e.target.value)}
       />

@@ -1,27 +1,25 @@
+
 import React, { useEffect, useState } from "react";
+import api from "../services/api"; // Importe sua instância do Axios para usar o Token
 
 function Dashboard() {
   const [pacientes, setPacientes] = useState([]);
   const [erro, setErro] = useState(null);
 
-  // Mock de pacientes
   const pacientesMock = [
-    { id: 1, nome: "Maria Silva", idade: 32 },
-    { id: 2, nome: "João Souza", idade: 45 },
-    { id: 3, nome: "Ana Costa", idade: 28 },
+    { id: 1, nome: "Maria Silva (Mock)", idade: 32 },
+    { id: 2, nome: "João Souza (Mock)", idade: 45 }
   ];
 
   useEffect(() => {
     async function carregarPacientes() {
       try {
-        // Exemplo de chamada ao backend
-        const resp = await fetch("http://localhost:3000/pacientes");
-        if (!resp.ok) throw new Error("Erro na API");
-        const dados = await resp.json();
-        setPacientes(dados);
+        // Chamada usando sua URL do Railway via Axios
+        const resp = await api.get("/pacientes");
+        setPacientes(resp.data);
       } catch (err) {
         console.error("Erro ao buscar pacientes:", err);
-        setErro("Usando dados mockados");
+        setErro("Conectado ao Railway, mas sem dados reais ainda. Usando mock.");
         setPacientes(pacientesMock);
       }
     }
@@ -29,17 +27,20 @@ function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {erro && <p style={{ color: "red" }}>{erro}</p>}
-      <h2>Lista de Pacientes</h2>
-      <ul>
-        {pacientes.map((p) => (
-          <li key={p.id}>
-            {p.nome} — {p.idade} anos
-          </li>
-        ))}
-      </ul>
+    <div style={{ padding: '20px' }}>
+      <h1>Dashboard OdontoPlan</h1>
+      {erro && <p style={{ color: "orange" }}>{erro}</p>}
+
+      <section>
+        <h2>Lista de Pacientes</h2>
+        <ul>
+          {pacientes.map((p) => (
+            <li key={p.id}>
+              {p.nome} — {p.idade} anos
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

@@ -1,0 +1,129 @@
+.planos-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 25px;
+  padding: 50px 20px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.plano-card {
+  background: white;
+  border-radius: 12px;
+  width: 320px;
+  padding-bottom: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.3s ease;
+}
+
+.plano-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Cabeçalhos Coloridos */
+.card-header {
+  padding: 25px;
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  text-transform: capitalize;
+}
+
+.bg-blue { background-color: #1d63d2; }
+.bg-green { background-color: #2d8a4e; }
+.bg-gold {
+  background: linear-gradient(135deg, #eeb437 0%, #d49a1d 100%);
+  position: relative;
+}
+
+.badge-mais-completo {
+  background: #f6ad55;
+  color: #744210;
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* Preços */
+.price {
+  font-size: 42px;
+  font-weight: 800;
+  margin: 25px 0;
+  color: #2d3748;
+}
+
+.price span {
+  font-size: 18px;
+  color: #718096;
+  font-weight: 400;
+}
+
+/* Lista de Benefícios com o "Check" azul/verde/ouro */
+.beneficios {
+  text-align: left;
+  padding: 0 30px;
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.beneficios li {
+  margin-bottom: 18px;
+  font-size: 14px;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.beneficios li::before {
+  content: "✓";
+  margin-right: 12px;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+/* Cores dos ícones baseadas no plano */
+.plano-card.basico .beneficios li::before { color: #1d63d2; }
+.plano-card.intermediario .beneficios li::before { color: #2d8a4e; }
+.plano-card.premium .beneficios li::before { color: #d49a1d; }
+
+/* Avisos de excedente */
+.aviso-excedente {
+  background: #fffaf0;
+  border: 1px solid #fbd38d;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 0 20px 25px;
+  font-size: 12px;
+  color: #744210;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+/* Botões */
+.btn-escolher {
+  width: 80%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.basico .btn-escolher { background-color: #1d63d2; }
+.intermediario .btn-escolher { background-color: #2d8a4e; }
+.premium .btn-escolher { background-color: #d49a1d; }

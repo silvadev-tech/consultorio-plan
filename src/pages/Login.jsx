@@ -53,7 +53,7 @@ export default function Login() {
       localStorage.removeItem("planoEscolhidoId");
       localStorage.removeItem("planoEscolhidoNome");
 
-      navigate("/dashboard");
+      navigate("/agenda");
     } catch (error) {
       console.error("Erro no login:", error.response?.data);
       if (error.response && error.response.status === 403) {

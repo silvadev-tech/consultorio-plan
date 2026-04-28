@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Plano from "./pages/Plano";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
-import Dashboard from "./pages/Dashboard.jsx"; // Removi o .jsx do final, o Vite resolve sozinho
+import Dashboard from "./pages/Dashboard";
+import Agenda from "./pages/Agenda"; // Certifique-se que este arquivo existe em src/pages/
 
 // Componente para proteger rotas
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
-  // Se não tiver token, manda para o login usando 'replace' para não sujar o histórico
   return token ? children : <Navigate to="/login" replace />;
 }
 
@@ -15,16 +15,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rota inicial: Planos */}
+        {/* Rota pública inicial */}
         <Route path="/" element={<Plano />} />
 
-        {/* Rota de Login: ESSENCIAL para não dar tela branca no redirecionamento */}
+        {/* Outras rotas públicas */}
+        <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
 
-        {/* Rota de Cadastro */}
-        <Route path="/login" element={<Login />} />
-
-        {/* Rota Protegida: Dashboard */}
+        {/* Rotas Privadas (SÓ ACESSA LOGADO) */}
         <Route
           path="/dashboard"
           element={
@@ -34,8 +32,16 @@ function App() {
           }
         />
 
-        {/* Rota "Coringa": Se o usuário digitar qualquer coisa errada ou der F5
-            em rota inexistente, ele volta para a Home com segurança */}
+        <Route
+          path="/agenda"
+          element={
+            <PrivateRoute>
+              <Agenda />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Redireciona qualquer rota errada para a Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

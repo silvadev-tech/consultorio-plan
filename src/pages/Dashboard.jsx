@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import api from "../services/api"; // Importe sua instância do Axios para usar o Token
+import dashboardService from "../services/dashboardService";
 
 function Dashboard() {
   const [pacientes, setPacientes] = useState([]);

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Plano from "./pages/Plano";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
-import Dashboard from "./pages/Dashboard"; // Removi o .jsx do final, o Vite resolve sozinho
+import Dashboard from "./pages/Dashboard.jsx"; // Removi o .jsx do final, o Vite resolve sozinho
 
 // Componente para proteger rotas
 function PrivateRoute({ children }) {

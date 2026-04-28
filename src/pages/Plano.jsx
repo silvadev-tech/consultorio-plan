@@ -22,7 +22,7 @@ function Plano() {
   const selecionarPlano = (id, nome) => {
     localStorage.setItem("planoEscolhidoId", id);
     localStorage.setItem("planoEscolhidoNome", nome);
-    navigate("/cadastro"); // Redirecionamento correto no React
+    navigate("/cadastro");
   };
 
   return (
@@ -37,21 +37,22 @@ function Plano() {
           </tr>
         </thead>
         <tbody>
-          {planos.map((plano) => (
-            <tr key={plano.id}>
-              <td>{plano.nome}</td>
-              <td>R$ {plano.preco.toFixed(2)}</td>
-              <td>
-                <button onClick={() => selecionarPlano(plano.id, plano.nome)}>
-                  Selecionar
-                </button>
-              </td>
-            </tr>
-          ))}
+         {/* O ?. evita que o site trave enquanto a API do Railway responde */}
+         {planos?.map((plano) => (
+           <tr key={plano.id}>
+             <td>{plano.nome}</td>
+             <td>R$ {plano.preco?.toFixed(2) || "0.00"}</td>
+             <td>
+               <button onClick={() => selecionarPlano(plano.id, plano.nome)}>
+                 Selecionar
+               </button>
+             </td>
+           </tr>
+         ))}
         </tbody>
       </table>
     </div>
   );
 }
 
-export default Plano; // <--- Isso resolve o erro do Build!
+export default Plano;
